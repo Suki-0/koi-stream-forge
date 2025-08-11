@@ -60,7 +60,24 @@ export default function VideoPlayer({
 
   return (
     <div className="space-y-2">
-      <video ref={videoRef} className="h-[50vh] w-full rounded-lg bg-secondary" controls playsInline />
+      <video
+        ref={videoRef}
+        className="h-[50vh] w-full rounded-lg bg-secondary"
+        controls
+        playsInline
+        crossOrigin="anonymous"
+      >
+        {subtitles.map((s, i) => (
+          <track
+            key={i}
+            kind="subtitles"
+            src={s.url}
+            srcLang={s.lang || s.label || `lang-${i}`}
+            label={s.label || s.lang || `Track ${i + 1}`}
+            default={i === 0}
+          />
+        ))}
+      </video>
       {subtitles.length > 0 && (
         <div className="text-xs text-muted-foreground">Subtitles available: {subtitles.length}</div>
       )}

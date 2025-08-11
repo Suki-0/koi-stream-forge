@@ -1,11 +1,21 @@
+import { supabase } from "@/integrations/supabase/client";
+
 const BASE = "https://api.consumet.org";
 
 async function proxyFetch<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, init);
-  if (!res.ok) throw new Error(`Consumet error ${res.status}`);
-  const contentType = res.headers.get("content-type") || "application/json";
-  const data = contentType.includes("application/json") ? await res.json() : await res.text();
-  return data as T;
+  try {
+    const { data, error } = await supabase.functions.invoke("proxy-consumet", {
+      body: { url, init },
+    });
+    if (error) throw error;
+    return data as T;
+  } catch {
+    const res = await fetch(url, init);
+    if (!res.ok) throw new Error(`Consumet error ${res.status}`);
+    const contentType = res.headers.get("content-type") || "application/json";
+    const result = contentType.includes("application/json") ? await res.json() : await res.text();
+    return result as T;
+  }
 }
 
 export type GogoSearchItem = {
