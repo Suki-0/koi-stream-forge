@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Helmet>
         <title>Koi — Robust Anime Streaming MVP</title>
         <meta name="description" content="Stream trending anime with live search, smooth UI, and resilient playback on Koi." />

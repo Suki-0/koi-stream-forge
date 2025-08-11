@@ -57,8 +57,8 @@ export async function getEpisodeServers(episodeId: string) {
   return data.results;
 }
 
-export async function getEpisodeSources(episodeId: string) {
-  const url = `${BASE}/anime/gogoanime/watch/${episodeId}`;
+export async function getEpisodeSources(episodeId: string, server?: string) {
+  const url = `${BASE}/anime/gogoanime/watch/${episodeId}${server ? `?server=${encodeURIComponent(server)}` : ''}`;
   return await proxyFetch<GogoSources>(url);
 }
 
